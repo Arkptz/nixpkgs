@@ -1,6 +1,19 @@
-{ lib, stdenv, fetchPypi, buildPythonPackage, python, pkg-config, dbus, dbus-glib, isPyPy
-, ncurses, pygobject3, isPy3k, pythonAtLeast }:
-
+{
+  lib,
+  stdenv,
+  fetchPypi,
+  buildPythonPackage,
+  python,
+  pkg-config,
+  dbus,
+  dbus-glib,
+  isPyPy,
+  ncurses,
+  pygobject3,
+  isPy3k,
+  pythonAtLeast,
+  autoconf,
+}:
 buildPythonPackage rec {
   pname = "dbus-python";
   version = "1.2.18";
@@ -8,7 +21,7 @@ buildPythonPackage rec {
   # ModuleNotFoundError: No module named 'distutils'
   disabled = isPyPy || pythonAtLeast "3.12";
   format = "other";
-  outputs = [ "out" "dev" ];
+  outputs = ["out" "dev"];
 
   src = fetchPypi {
     inherit pname version;
@@ -27,14 +40,15 @@ buildPythonPackage rec {
     "PYTHON=${python.pythonOnBuildForHost.interpreter}"
   ];
 
-  nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ dbus dbus-glib ]
+  nativeBuildInputs = [pkg-config autoconf];
+  buildInputs =
+    [dbus dbus-glib]
     # My guess why it's sometimes trying to -lncurses.
     # It seems not to retain the dependency anyway.
     ++ lib.optional (! python ? modules) ncurses;
 
   doCheck = isPy3k;
-  nativeCheckInputs = [ dbus.out pygobject3 ];
+  nativeCheckInputs = [dbus.out pygobject3];
 
   postInstall = ''
     cp -r dbus_python.egg-info $out/${python.sitePackages}/
@@ -44,6 +58,6 @@ buildPythonPackage rec {
     description = "Python DBus bindings";
     license = licenses.mit;
     platforms = dbus.meta.platforms;
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [];
   };
 }
