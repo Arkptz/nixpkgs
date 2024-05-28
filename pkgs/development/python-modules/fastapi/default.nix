@@ -32,6 +32,7 @@
   uvicorn,
   pydantic-settings,
   pydantic-extra-types,
+  fastapi-cli,
 }:
 buildPythonPackage rec {
   pname = "fastapi";
@@ -48,6 +49,7 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [
+    fastapi-cli
     pdm-backend
     hatchling
     pythonRelaxDepsHook
