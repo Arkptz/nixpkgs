@@ -54,6 +54,7 @@ buildPythonPackage rec {
     fastapi
     typer
     rich
+    fastapi
     pdm-backend
     hatchling
     pythonRelaxDepsHook
