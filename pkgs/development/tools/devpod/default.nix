@@ -23,17 +23,18 @@
 
 let
   pname = "devpod";
-  version = "0.5.4";
+  version = "0.5.7";
 
   src = fetchFromGitHub {
     owner = "loft-sh";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-BXr+2uia5skNRpdo8T+0uOVdh6WmWeC42PGNSURJhas=";
+    sha256 = "sha256-h7FT8Mp/JOOf3XoAJDl1tBKoLfOAS7oaacirPZRQr6A=";
   };
 
   meta = with lib; {
     description = "Codespaces but open-source, client-only and unopinionated: Works with any IDE and lets you use any cloud, kubernetes or just localhost docker";
+    mainProgram = "devpod";
     homepage = "https://devpod.sh";
     license = licenses.mpl20;
     maintainers = with maintainers; [ maxbrunet ];

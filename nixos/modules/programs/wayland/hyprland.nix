@@ -3,7 +3,7 @@
 , pkgs
 , ...
 }:
-with lib; let
+let
   cfg = config.programs.hyprland;
 
   finalPortalPackage = cfg.portalPackage.override {
@@ -12,9 +12,9 @@ with lib; let
 in
 {
   options.programs.hyprland = {
-    enable = mkEnableOption null // {
-      description = mdDoc ''
-        Hyprland, the dynamic tiling Wayland compositor that doesn't sacrifice on its looks.
+    enable = lib.mkEnableOption null // {
+      description = ''
+        Whether to enable Hyprland, the dynamic tiling Wayland compositor that doesn't sacrifice on its looks.
 
         You can manually launch Hyprland by executing {command}`Hyprland` on a TTY.
 
@@ -23,58 +23,74 @@ in
       '';
     };
 
-    package = mkPackageOption pkgs "hyprland" { };
+    package = lib.mkPackageOption pkgs "hyprland" { };
 
-    finalPackage = mkOption {
-      type = types.package;
+    finalPackage = lib.mkOption {
+      type = lib.types.package;
       readOnly = true;
       default = cfg.package.override {
         enableXWayland = cfg.xwayland.enable;
       };
-      defaultText = literalExpression
+      defaultText = lib.literalExpression
         "`programs.hyprland.package` with applied configuration";
-      description = mdDoc ''
+      description = ''
         The Hyprland package after applying configuration.
       '';
     };
 
-    portalPackage = mkPackageOption pkgs "xdg-desktop-portal-hyprland" { };
+    portalPackage = lib.mkPackageOption pkgs "xdg-desktop-portal-hyprland" { };
 
-    xwayland.enable = mkEnableOption (mdDoc "XWayland") // { default = true; };
+    xwayland.enable = lib.mkEnableOption ("XWayland") // { default = true; };
+
+    systemd.setPath.enable = lib.mkEnableOption null // {
+      default = true;
+      example = false;
+      description = ''
+        Set environment path of systemd to include the current system's bin directory.
+        This is needed in Hyprland setups, where opening links in applications do not work.
+        Enabled by default.
+      '';
+    };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     environment.systemPackages = [ cfg.finalPackage ];
 
-    fonts.enableDefaultPackages = mkDefault true;
-    hardware.opengl.enable = mkDefault true;
+    fonts.enableDefaultPackages = lib.mkDefault true;
+    hardware.opengl.enable = lib.mkDefault true;
 
     programs = {
-      dconf.enable = mkDefault true;
-      xwayland.enable = mkDefault cfg.xwayland.enable;
+      dconf.enable = lib.mkDefault true;
+      xwayland.enable = lib.mkDefault cfg.xwayland.enable;
     };
 
     security.polkit.enable = true;
 
-    services.xserver.displayManager.sessionPackages = [ cfg.finalPackage ];
+    services.displayManager.sessionPackages = [ cfg.finalPackage ];
 
     xdg.portal = {
-      enable = mkDefault true;
+      enable = lib.mkDefault true;
       extraPortals = [ finalPortalPackage ];
-      configPackages = mkDefault [ cfg.finalPackage ];
+      configPackages = lib.mkDefault [ cfg.finalPackage ];
+    };
+
+    systemd = lib.mkIf cfg.systemd.setPath.enable {
+      user.extraConfig = ''
+        DefaultEnvironment="PATH=$PATH:/run/current-system/sw/bin:/etc/profiles/per-user/%u/bin:/run/wrappers/bin"
+      '';
     };
   };
 
-  imports = with lib; [
-    (mkRemovedOptionModule
+  imports = [
+    (lib.mkRemovedOptionModule
       [ "programs" "hyprland" "xwayland" "hidpi" ]
       "XWayland patches are deprecated. Refer to https://wiki.hyprland.org/Configuring/XWayland"
     )
-    (mkRemovedOptionModule
+    (lib.mkRemovedOptionModule
       [ "programs" "hyprland" "enableNvidiaPatches" ]
       "Nvidia patches are no longer needed"
     )
-    (mkRemovedOptionModule
+    (lib.mkRemovedOptionModule
       [ "programs" "hyprland" "nvidiaPatches" ]
       "Nvidia patches are no longer needed"
     )

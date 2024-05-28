@@ -53,13 +53,16 @@ stdenv.mkDerivation {
       --replace /share/mattermost-desktop/mattermost-desktop /bin/mattermost-desktop
 
     makeWrapper '${lib.getExe electron_28}' $out/bin/${pname} \
-      --add-flags $out/share/${pname}/app.asar
+      --set-default ELECTRON_IS_DEV 0 \
+      --add-flags $out/share/${pname}/app.asar \
+      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}"
 
     runHook postInstall
   '';
 
   meta = with lib; {
     description = "Mattermost Desktop client";
+    mainProgram = "mattermost-desktop";
     homepage = "https://about.mattermost.com/";
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
     license = licenses.asl20;

@@ -9,16 +9,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "cargo-component";
-  version = "0.10.1";
+  version = "0.13.0";
 
   src = fetchFromGitHub {
     owner = "bytecodealliance";
     repo = "cargo-component";
     rev = "v${version}";
-    hash = "sha256-1mq6tH3jFzyzQ0nsen9r08RrXMn16O7gOz7GS3nr10I=";
+    hash = "sha256-e1oticOXOimLXwymRbZ/eQEiqmvqWKgvPuBkdYarkxI=";
   };
 
-  cargoHash = "sha256-BtdMsJqAU9Y1QntUBymlYLJdfx9aP7hf/Za8G8D6w54=";
+  cargoHash = "sha256-pn4johqO1K9FKtitH2wNDtf1QUcGlJMvC0WTwG9myD0=";
 
   nativeBuildInputs = [
     pkg-config

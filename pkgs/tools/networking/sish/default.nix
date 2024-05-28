@@ -7,16 +7,16 @@
 
 buildGoModule rec {
   pname = "sish";
-  version = "2.12.0";
+  version = "2.15.0";
 
   src = fetchFromGitHub {
     owner = "antoniomika";
-    repo = pname;
+    repo = "sish";
     rev = "refs/tags/v${version}";
-    hash = "sha256-dn64M/DGnyaoEtbdeytpRsKCXQPvR+dJDI7yFt2IqU0=";
+    hash = "sha256-70FKq36q/wNMEmaFOXY9gt24gXXbdpQJB1F7wQwYigE=";
   };
 
-  vendorHash = "sha256-P5Y5DwF9Tb9j098XiEJZaEGZhT2Ce2emnV2SawElosI=";
+  vendorHash = "sha256-hlwJE31osz9MgZ0vCx4L6vo4PuGh0NgiPJgDq65fZ4U=";
 
   ldflags = [
     "-s"

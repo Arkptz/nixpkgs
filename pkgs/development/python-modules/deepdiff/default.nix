@@ -1,18 +1,19 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, click
-, ordered-set
-, orjson
-, clevercsv
-, jsonpickle
-, numpy
-, pytestCheckHook
-, python-dateutil
-, pyyaml
-, toml
-, tomli-w
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  click,
+  ordered-set,
+  orjson,
+  clevercsv,
+  jsonpickle,
+  numpy,
+  pytestCheckHook,
+  python-dateutil,
+  pyyaml,
+  toml,
+  tomli-w,
+  pythonOlder,
 }:
 
 buildPythonPackage rec {
@@ -62,12 +63,11 @@ buildPythonPackage rec {
     "test_pydantic2"
   ];
 
-  pythonImportsCheck = [
-    "deepdiff"
-  ];
+  pythonImportsCheck = [ "deepdiff" ];
 
   meta = with lib; {
     description = "Deep Difference and Search of any Python object/data";
+    mainProgram = "deep";
     homepage = "https://github.com/seperman/deepdiff";
     changelog = "https://github.com/seperman/deepdiff/releases/tag/${version}";
     license = licenses.mit;

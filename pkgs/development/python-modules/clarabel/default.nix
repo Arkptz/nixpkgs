@@ -1,12 +1,13 @@
-{ lib
-, stdenv
-, buildPythonPackage
-, fetchPypi
-, rustPlatform
-, libiconv
-, numpy
-, scipy
-, nix-update-script
+{
+  lib,
+  stdenv,
+  buildPythonPackage,
+  fetchPypi,
+  rustPlatform,
+  libiconv,
+  numpy,
+  scipy,
+  nix-update-script,
 }:
 
 buildPythonPackage rec {
@@ -37,9 +38,7 @@ buildPythonPackage rec {
     scipy
   ];
 
-  pythonImportsCheck = [
-    "clarabel"
-  ];
+  pythonImportsCheck = [ "clarabel" ];
 
   # no tests but run the same examples as .github/workflows/pypi.yaml
   checkPhase = ''
@@ -56,6 +55,6 @@ buildPythonPackage rec {
     description = "Conic Interior Point Solver";
     homepage = "https://github.com/oxfordcontrol/Clarabel.rs";
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ a-n-n-a-l-e-e ];
+    maintainers = [ ];
   };
 }

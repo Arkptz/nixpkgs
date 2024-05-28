@@ -1,6 +1,7 @@
 { lib
 , fetchPypi
 , buildPythonApplication
+, pythonRelaxDepsHook
 , poetry-core
 , colorama
 , packaging
@@ -27,6 +28,12 @@ buildPythonApplication rec {
     gobject-introspection
     poetry-core
     wrapGAppsNoGuiHook
+    pythonRelaxDepsHook
+  ];
+
+  pythonRelaxDeps = [
+    "more-itertools"
+    "packaging"
   ];
 
   propagatedBuildInputs = [

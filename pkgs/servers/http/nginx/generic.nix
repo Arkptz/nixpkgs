@@ -130,6 +130,9 @@ stdenv.mkDerivation {
     "-Wno-error=deprecated-declarations"
     "-Wno-error=gnu-folding-constant"
     "-Wno-error=unused-but-set-variable"
+  ] ++ lib.optionals stdenv.hostPlatform.isMusl [
+    # fix sys/cdefs.h is deprecated
+    "-Wno-error=cpp"
   ]);
 
   configurePlatforms = [];
@@ -200,6 +203,7 @@ stdenv.mkDerivation {
 
   meta = if meta != null then meta else with lib; {
     description = "A reverse proxy and lightweight webserver";
+    mainProgram = "nginx";
     homepage    = "http://nginx.org";
     license     = [ licenses.bsd2 ]
       ++ concatMap (m: m.meta.license) modules;

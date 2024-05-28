@@ -6,8 +6,9 @@
 , ninja
 , pkg-config
 , python3
-, wrapGAppsHook
+, wrapGAppsHook3
 , libinput
+, gobject-introspection
 , gnome
 , gnome-desktop
 , glib
@@ -24,20 +25,21 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "phoc";
-  version = "0.37.0";
+  version = "0.38.0";
 
   src = fetchurl {
     # This tarball includes the meson wrapped subproject 'gmobile'.
     url = with finalAttrs; "https://sources.phosh.mobi/releases/${pname}/${pname}-${version}.tar.xz";
-    hash = "sha256-SQLoOjqDBL1G3SDO4mfVRV2U0i+M1EwiqUR52ytFJmM=";
+    hash = "sha256-OcRUnw1Fck9bMSgfMMcWqqR6a6yzyKjY8P3nqcwVULc=";
   };
 
   nativeBuildInputs = [
+    gobject-introspection
     meson
     ninja
     pkg-config
     python3
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   buildInputs = [
@@ -80,6 +82,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   meta = with lib; {
     description = "Wayland compositor for mobile phones like the Librem 5";
+    mainProgram = "phoc";
     homepage = "https://gitlab.gnome.org/World/Phosh/phoc";
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ masipcat tomfitzhenry zhaofengli ];

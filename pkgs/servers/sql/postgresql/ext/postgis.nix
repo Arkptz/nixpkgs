@@ -37,9 +37,7 @@ stdenv.mkDerivation rec {
   dontDisableStatic = true;
 
   # postgis config directory assumes /include /lib from the same root for json-c library
-  NIX_LDFLAGS = "-L${lib.getLib json_c}/lib"
-    # Work around https://github.com/NixOS/nixpkgs/issues/166205.
-    + lib.optionalString (stdenv.cc.isClang && stdenv.cc.libcxx != null) " -l${stdenv.cc.libcxx.cxxabi.libName}";
+  env.NIX_LDFLAGS = "-L${lib.getLib json_c}/lib";
 
 
   preConfigure = ''
@@ -83,7 +81,7 @@ stdenv.mkDerivation rec {
     homepage = "https://postgis.net/";
     changelog = "https://git.osgeo.org/gitea/postgis/postgis/raw/tag/${version}/NEWS";
     license = licenses.gpl2;
-    maintainers = with maintainers; teams.geospatial.members ++ [ marcweber ];
+    maintainers = with maintainers; teams.geospatial.members ++ [ marcweber wolfgangwalther ];
     inherit (postgresql.meta) platforms;
   };
 }

@@ -7,21 +7,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "sendme";
-  version = "0.3.0";
+  version = "0.7.0";
 
   src = fetchFromGitHub {
     owner = "n0-computer";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-UaAiHGeSqy4kHO9CZX3kYeECZDo45web6yMbBRVnlhQ=";
+    hash = "sha256-x4RN/C/XMvpfsbWJTX5wDj1K+ADz2YIb/esAIEpFVcs=";
   };
 
-  # TODO: Remove lock file and use 'cargoHash' instead once `watchable` crate
-  # is upgraded past v1.1.1.
-  # See https://github.com/khonsulabs/watchable/issues/1
-  cargoLock = {
-    lockFile = ./Cargo.lock;
-  };
+  cargoHash = "sha256-yeexP6wfhg2Ir1oJzaxMwRMen9M409MB4cNZ8fd6cHc=";
 
   buildInputs = lib.optionals stdenv.isDarwin (
     with darwin.apple_sdk.frameworks; [

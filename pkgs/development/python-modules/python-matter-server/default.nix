@@ -1,33 +1,34 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, pythonOlder
-, stdenvNoCC
-, substituteAll
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  pythonOlder,
+  stdenvNoCC,
+  substituteAll,
 
-# build
-, setuptools
-, pythonRelaxDepsHook
+  # build
+  setuptools,
+  pythonRelaxDepsHook,
 
-# propagates
-, aiohttp
-, aiorun
-, async-timeout
-, coloredlogs
-, dacite
-, orjson
-, home-assistant-chip-clusters
+  # propagates
+  aiohttp,
+  aiorun,
+  async-timeout,
+  coloredlogs,
+  dacite,
+  orjson,
+  home-assistant-chip-clusters,
 
-# optionals
-, cryptography
-, home-assistant-chip-core
-, zeroconf
+  # optionals
+  cryptography,
+  home-assistant-chip-core,
+  zeroconf,
 
-# tests
-, python
-, pytest
-, pytest-aiohttp
-, pytestCheckHook
+  # tests
+  python,
+  pytest,
+  pytest-aiohttp,
+  pytestCheckHook,
 }:
 
 let
@@ -55,7 +56,7 @@ in
 
 buildPythonPackage rec {
   pname = "python-matter-server";
-  version = "5.8.1";
+  version = "5.10.0";
   format = "pyproject";
 
   disabled = pythonOlder "3.10";
@@ -64,7 +65,7 @@ buildPythonPackage rec {
     owner = "home-assistant-libs";
     repo = "python-matter-server";
     rev = "refs/tags/${version}";
-    hash = "sha256-iisDEopaKklLvvGDTo2fv0Fpkhuhd+7KoNnQA+QmjB8=";
+    hash = "sha256-rfpGclSgCBTxlTgVqgNz3ixoldB9M+6mLmogkNDDdWs=";
   };
 
   patches = [
@@ -85,9 +86,7 @@ buildPythonPackage rec {
     pythonRelaxDepsHook
   ];
 
-  pythonRelaxDeps = [
-    "home-assistant-chip-clusters"
-  ];
+  pythonRelaxDeps = [ "home-assistant-chip-clusters" ];
 
   propagatedBuildInputs = [
     aiohttp
@@ -110,15 +109,15 @@ buildPythonPackage rec {
   nativeCheckInputs = [
     pytest-aiohttp
     pytestCheckHook
-  ]
-  ++ lib.flatten (lib.attrValues passthru.optional-dependencies);
+  ] ++ lib.flatten (lib.attrValues passthru.optional-dependencies);
 
-  preCheck = let
-    pythonEnv = python.withPackages (_: propagatedBuildInputs ++ nativeCheckInputs ++ [ pytest ]);
-  in
-  ''
-    export PYTHONPATH=${pythonEnv}/${python.sitePackages}
-  '';
+  preCheck =
+    let
+      pythonEnv = python.withPackages (_: propagatedBuildInputs ++ nativeCheckInputs ++ [ pytest ]);
+    in
+    ''
+      export PYTHONPATH=${pythonEnv}/${python.sitePackages}
+    '';
 
   pytestFlagsArray = [
     # Upstream theymselves limit the test scope
@@ -129,6 +128,7 @@ buildPythonPackage rec {
   meta = with lib; {
     changelog = "https://github.com/home-assistant-libs/python-matter-server/releases/tag/${version}";
     description = "Python server to interact with Matter";
+    mainProgram = "matter-server";
     homepage = "https://github.com/home-assistant-libs/python-matter-server";
     license = licenses.asl20;
     maintainers = teams.home-assistant.members;

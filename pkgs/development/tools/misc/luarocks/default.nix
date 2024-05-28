@@ -1,14 +1,11 @@
 { lib
 , stdenv
 , fetchFromGitHub
-, fetchpatch
 , curl
 , makeWrapper
 , which
 , unzip
 , lua
-, file
-, nix-prefetch-git
   # for 'luarocks pack'
 , zip
 , nix-update-script
@@ -19,13 +16,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "luarocks";
-  version = "3.9.2";
+  version = "3.11.0";
 
   src = fetchFromGitHub {
     owner = "luarocks";
     repo = "luarocks";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-D5jH7QuPayDNskIhiPeqKzI9m33MjRjQ8ReghFIUlPo=";
+    hash = "sha256-mSwwBuLWoMT38iYaV/BTdDmmBz4heTRJzxBHC0Vrvc4=";
   };
 
   patches = [
@@ -81,8 +78,7 @@ stdenv.mkDerivation (finalAttrs: {
               --suffix LUA_PATH ";" "$(echo "$out"/share/lua/*/)?/init.lua" \
               --suffix LUA_CPATH ";" "$(echo "$out"/lib/lua/*/)?.so" \
               --suffix LUA_CPATH ";" "$(echo "$out"/share/lua/*/)?/init.lua" \
-              --suffix PATH : ${lib.makeBinPath ([ unzip ] ++
-                lib.optionals (finalAttrs.pname == "luarocks-nix") [ file nix-prefetch-git ])}
+              --suffix PATH : ${lib.makeBinPath finalAttrs.propagatedBuildInputs}
         }
     done
   '';
@@ -112,6 +108,7 @@ stdenv.mkDerivation (finalAttrs: {
     description = "A package manager for Lua";
     license = licenses.mit;
     maintainers = with maintainers; [ raskin teto ];
+    mainProgram = "luarocks";
     platforms = platforms.linux ++ platforms.darwin;
     downloadPage = "http://luarocks.org/releases/";
   };

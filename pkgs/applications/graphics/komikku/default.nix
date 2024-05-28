@@ -19,7 +19,7 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "komikku";
-  version = "1.38.1";
+  version = "1.46.0";
 
   format = "other";
 
@@ -28,7 +28,7 @@ python3.pkgs.buildPythonApplication rec {
     owner = "valos";
     repo = "Komikku";
     rev = "v${version}";
-    hash = "sha256-eVNW8Iuhee9WBbiXP7ijvd0K44/IpwdrdiT4RkBNcxI=";
+    hash = "sha256-0yobGclfZzv0S0HtqeTr4vzK5d6PTQNWMszP0B4k770=";
   };
 
   nativeBuildInputs = [
@@ -62,7 +62,7 @@ python3.pkgs.buildPythonApplication rec {
     natsort
     piexif
     pillow
-    pure-protobuf
+    curl-cffi
     pygobject3
     python-magic
     rarfile
@@ -88,6 +88,7 @@ python3.pkgs.buildPythonApplication rec {
 
   meta = with lib; {
     description = "Manga reader for GNOME";
+    mainProgram = "komikku";
     homepage = "https://apps.gnome.org/Komikku/";
     license = licenses.gpl3Plus;
     changelog = "https://codeberg.org/valos/Komikku/releases/tag/v${version}";

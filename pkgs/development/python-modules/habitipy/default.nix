@@ -1,12 +1,13 @@
-{ lib
-, buildPythonPackage
-, fetchFromGitHub
-, plumbum
-, requests
-, setuptools
-, hypothesis
-, pynose
-, responses
+{
+  lib,
+  buildPythonPackage,
+  fetchFromGitHub,
+  plumbum,
+  requests,
+  setuptools,
+  hypothesis,
+  pynose,
+  responses,
 }:
 
 buildPythonPackage rec {
@@ -41,6 +42,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Tools and library for Habitica restful API";
+    mainProgram = "habitipy";
     homepage = "https://github.com/ASMfreaK/habitipy";
     license = licenses.mit;
     maintainers = with maintainers; [ dotlambda ];

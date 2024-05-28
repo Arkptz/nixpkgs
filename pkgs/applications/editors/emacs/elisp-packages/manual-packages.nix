@@ -33,6 +33,8 @@ in
 
   elisp-ffi = callPackage ./manual-packages/elisp-ffi { };
 
+  emacs-conflict = callPackage ./manual-packages/emacs-conflict { };
+
   ess-R-object-popup = callPackage ./manual-packages/ess-R-object-popup { };
 
   evil-markdown = callPackage ./manual-packages/evil-markdown { };
@@ -84,6 +86,8 @@ in
   structured-haskell-mode = self.shm;
 
   sv-kalender = callPackage ./manual-packages/sv-kalender { };
+
+  texpresso = callPackage ./manual-packages/texpresso { inherit (pkgs) texpresso; };
 
   tree-sitter-langs = callPackage ./manual-packages/tree-sitter-langs { final = self; };
 

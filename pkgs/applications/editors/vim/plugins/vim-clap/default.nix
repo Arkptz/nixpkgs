@@ -11,17 +11,18 @@
 }:
 
 let
-  version = "0.52";
+  version = "0.53";
 
   src = fetchFromGitHub {
     owner = "liuchengxu";
     repo = "vim-clap";
     rev = "v${version}";
-    hash = "sha256-byG4DHa0rTzvlLW+d3eF8xCX8uft4b7HYJDqbVmTdNI=";
+    hash = "sha256-0D9HMFh0G9Dq78v/Aau7VXN9jBad6ZevqTCjx7FT9Yw=";
   };
 
   meta = with lib; {
     description = "A modern performant fuzzy picker for Vim and NeoVim";
+    mainProgram = "maple";
     homepage = "https://github.com/liuchengxu/vim-clap";
     changelog = "https://github.com/liuchengxu/vim-clap/blob/${src.rev}/CHANGELOG.md";
     license = licenses.mit;

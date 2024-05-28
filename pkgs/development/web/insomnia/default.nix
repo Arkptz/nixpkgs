@@ -1,6 +1,6 @@
 { lib, stdenv, makeWrapper, fetchurl, dpkg, alsa-lib, atk, cairo, cups, dbus, expat
 , fontconfig, freetype, gdk-pixbuf, glib, pango, mesa, nspr, nss, gtk3
-, at-spi2-atk, gsettings-desktop-schemas, gobject-introspection, wrapGAppsHook
+, at-spi2-atk, gsettings-desktop-schemas, gobject-introspection, wrapGAppsHook3
 , libX11, libXScrnSaver, libXcomposite, libXcursor, libXdamage, libXext
 , libXfixes, libXi, libXrandr, libXrender, libXtst, libxcb, libxshmfence, nghttp2
 , libudev0-shim, glibc, curl, openssl, autoPatchelfHook }:
@@ -28,7 +28,7 @@ in stdenv.mkDerivation rec {
     dpkg
     makeWrapper
     gobject-introspection
-    wrapGAppsHook
+    wrapGAppsHook3
   ];
 
   buildInputs = [
@@ -90,6 +90,7 @@ in stdenv.mkDerivation rec {
   meta = with lib; {
     homepage = "https://insomnia.rest/";
     description = "The most intuitive cross-platform REST API Client";
+    mainProgram = "insomnia";
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
     license = licenses.mit;
     platforms = [ "x86_64-linux" ];

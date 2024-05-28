@@ -63,7 +63,7 @@ in
   };
 
   options.services.pretix = {
-    enable = mkEnableOption "pretix";
+    enable = mkEnableOption "Pretix, a ticket shop application for conferences, festivals, concerts, etc.";
 
     package = mkPackageOption pkgs "pretix" { };
 
@@ -468,7 +468,7 @@ in
           StateDirectory = [
             "pretix"
           ];
-          StateDirectoryMode = "0755";
+          StateDirectoryMode = "0750";
           CacheDirectory = "pretix";
           LogsDirectory = "pretix";
           WorkingDirectory = cfg.settings.pretix.datadir;
@@ -479,7 +479,7 @@ in
           CapabilityBoundingSet = [ "" ];
           DevicePolicy = "closed";
           LockPersonality = true;
-          MemoryDenyWriteExecute = true;
+          MemoryDenyWriteExecute = false; # required by pdftk
           NoNewPrivileges = true;
           PrivateDevices = true;
           PrivateTmp = true;
@@ -507,7 +507,7 @@ in
             "~@privileged"
             "@chown"
           ];
-          UMask = "0022";
+          UMask = "0027";
         };
       };
     in {
@@ -535,6 +535,7 @@ in
           fi
         '';
         serviceConfig = {
+          TimeoutStartSec = "5min";
           ExecStart = "${getExe' pythonEnv "gunicorn"} --bind unix:/run/pretix/pretix.sock ${cfg.gunicorn.extraArgs} pretix.wsgi";
           RuntimeDirectory = "pretix";
         };
@@ -560,6 +561,8 @@ in
         wantedBy = [ "multi-user.target" ];
         serviceConfig.ExecStart = "${getExe' pythonEnv "celery"} -A pretix.celery_app worker ${cfg.celery.extraArgs}";
       };
+
+      nginx.serviceConfig.SupplementaryGroups = mkIf cfg.nginx.enable [ "pretix" ];
     };
 
     systemd.sockets.pretix-web.socketConfig = {
@@ -568,11 +571,9 @@ in
     };
 
     users = {
-      groups."${cfg.group}" = {};
-      users."${cfg.user}" = {
+      groups.${cfg.group} = {};
+      users.${cfg.user} = {
         isSystemUser = true;
-        createHome = true;
-        home = cfg.settings.pretix.datadir;
         inherit (cfg) group;
       };
     };

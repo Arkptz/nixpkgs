@@ -35,7 +35,7 @@ stdenv.mkDerivation rec {
     qttools
     pkg-config
     wrapQtAppsHook
-    lxqt.lxqt-build-tools
+    lxqt.lxqt-build-tools_0_13
   ];
 
   buildInputs = [
@@ -55,6 +55,7 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "Terminal emulator with workspace, multiple windows, remote management, quake mode and other features";
+    mainProgram = "deepin-terminal";
     homepage = "https://github.com/linuxdeepin/deepin-terminal";
     license = licenses.gpl3Plus;
     platforms = platforms.linux;

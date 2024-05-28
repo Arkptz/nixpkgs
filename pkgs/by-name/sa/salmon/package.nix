@@ -13,7 +13,7 @@
 , libiconv
 , libstaden-read
 , pkg-config
-, tbb_2021_8
+, tbb_2021_11
 , xz
 , zlib
 }:
@@ -51,7 +51,7 @@ stdenv.mkDerivation (finalAttrs: {
     jemalloc
     libgff
     libstaden-read
-    tbb_2021_8
+    tbb_2021_11
     xz
     zlib
   ] ++ lib.optionals stdenv.isDarwin [ libiconv ];
@@ -63,6 +63,7 @@ stdenv.mkDerivation (finalAttrs: {
   meta = {
     description =
       "Tool for quantifying the expression of transcripts using RNA-seq data";
+    mainProgram = "salmon";
     longDescription = ''
       Salmon is a tool for quantifying the expression of transcripts
       using RNA-seq data. Salmon uses new algorithms (specifically,
