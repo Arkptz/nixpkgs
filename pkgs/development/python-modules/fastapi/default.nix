@@ -57,7 +57,6 @@ buildPythonPackage rec {
     "anyio"
     # https://github.com/tiangolo/fastapi/pull/9636
     "starlette"
-    "fastapi-cli"
   ];
 
   propagatedBuildInputs = [
@@ -113,7 +112,7 @@ buildPythonPackage rec {
   ];
 
   pythonImportsCheck = ["fastapi"];
-
+  dontCheckRuntimeDeps = true; #fastapi-cli
   meta = with lib; {
     changelog = "https://github.com/tiangolo/fastapi/releases/tag/${version}";
     description = "Web framework for building APIs";
