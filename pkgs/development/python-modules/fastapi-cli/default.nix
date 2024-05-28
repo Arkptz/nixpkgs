@@ -32,6 +32,7 @@
   uvicorn,
   pydantic-settings,
   pydantic-extra-types,
+  typer,
 }:
 buildPythonPackage rec {
   pname = "fastapi-cli";
@@ -48,6 +49,7 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [
+    typer
     pdm-backend
     hatchling
     pythonRelaxDepsHook
