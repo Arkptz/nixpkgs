@@ -33,6 +33,7 @@
   pydantic-settings,
   pydantic-extra-types,
   typer,
+  rich,
 }:
 buildPythonPackage rec {
   pname = "fastapi-cli";
@@ -50,6 +51,7 @@ buildPythonPackage rec {
 
   nativeBuildInputs = [
     typer
+    rich
     pdm-backend
     hatchling
     pythonRelaxDepsHook
