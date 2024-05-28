@@ -34,6 +34,7 @@
   pydantic-extra-types,
   typer,
   rich,
+  fastapi,
 }:
 buildPythonPackage rec {
   pname = "fastapi-cli";
@@ -50,6 +51,7 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [
+    fastapi
     typer
     rich
     pdm-backend
