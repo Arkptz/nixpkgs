@@ -32,7 +32,6 @@
   uvicorn,
   pydantic-settings,
   pydantic-extra-types,
-  # fastapi-cli,
 }:
 buildPythonPackage rec {
   pname = "fastapi";
@@ -58,6 +57,7 @@ buildPythonPackage rec {
     "anyio"
     # https://github.com/tiangolo/fastapi/pull/9636
     "starlette"
+    "fastapi-cli"
   ];
 
   propagatedBuildInputs = [
