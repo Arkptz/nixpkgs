@@ -17,6 +17,7 @@
   pytest-asyncio,
   pytestCheckHook,
   python-jose,
+  pdm-backend,
   sqlalchemy,
   trio,
   # optional-dependencies
@@ -47,6 +48,7 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [
+    pdm-backend
     hatchling
     pythonRelaxDepsHook
   ];
