@@ -107,10 +107,10 @@ buildPythonPackage rec {
 
   disabledTestPaths = [
     # Don't test docs and examples
-    "docs_src"
-    # databases is incompatible with SQLAlchemy 2.0
-    "tests/test_tutorial/test_async_sql_databases"
-    "tests/test_tutorial/test_sql_databases"
+    # "docs_src"
+    # # databases is incompatible with SQLAlchemy 2.0
+    # "tests/test_tutorial/test_async_sql_databases"
+    # "tests/test_tutorial/test_sql_databases"
   ];
 
   # pythonImportsCheck = ["fastapi-cli"];
