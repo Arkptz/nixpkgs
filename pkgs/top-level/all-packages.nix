@@ -31375,9 +31375,6 @@ with pkgs; {
 
   drawing = callPackage ../applications/graphics/drawing {};
 
-  drawio = callPackage ../applications/graphics/drawio {};
-  drawio-headless = callPackage ../applications/graphics/drawio/headless.nix {};
-
   drawio = callPackage ../applications/graphics/drawio {
     inherit (darwin) autoSignDarwinBinariesHook;
   };
@@ -41923,8 +41920,6 @@ with pkgs; {
     inherit (pkgs) callPackage fetchurl;
     branch = "development";
   };
-
-  discord-screenaudio = qt6.callPackage ../applications/networking/instant-messengers/discord-screenaudio {};
 
   discord-screenaudio = qt6Packages.callPackage ../applications/networking/instant-messengers/discord-screenaudio {};
 
