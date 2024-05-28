@@ -51,10 +51,8 @@ buildPythonPackage rec {
   };
 
   nativeBuildInputs = [
-    fastapi
     typer
     rich
-    fastapi
     pdm-backend
     hatchling
     pythonRelaxDepsHook
@@ -67,6 +65,7 @@ buildPythonPackage rec {
   ];
 
   propagatedBuildInputs = [
+    fastapi
     starlette
     pydantic
     typing-extensions
