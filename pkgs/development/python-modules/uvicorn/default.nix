@@ -1,23 +1,23 @@
-{ lib
-, buildPythonPackage
-, callPackage
-, fetchFromGitHub
-, click
-, h11
-, httptools
-, python-dotenv
-, pyyaml
-, typing-extensions
-, uvloop
-, watchfiles
-, websockets
-, hatchling
-, pythonOlder
+{
+  lib,
+  buildPythonPackage,
+  callPackage,
+  fetchFromGitHub,
+  click,
+  h11,
+  httptools,
+  python-dotenv,
+  pyyaml,
+  typing-extensions,
+  uvloop,
+  watchfiles,
+  websockets,
+  hatchling,
+  pythonOlder,
 }:
-
 buildPythonPackage rec {
   pname = "uvicorn";
-  version = "0.27.1";
+  version = "0.30.0";
   disabled = pythonOlder "3.8";
 
   pyproject = true;
@@ -34,14 +34,16 @@ buildPythonPackage rec {
     "testsout"
   ];
 
-  nativeBuildInputs = [ hatchling ];
+  nativeBuildInputs = [hatchling];
 
-  propagatedBuildInputs = [
-    click
-    h11
-  ] ++ lib.optionals (pythonOlder "3.11") [
-    typing-extensions
-  ];
+  propagatedBuildInputs =
+    [
+      click
+      h11
+    ]
+    ++ lib.optionals (pythonOlder "3.11") [
+      typing-extensions
+    ];
 
   passthru.optional-dependencies.standard = [
     httptools
@@ -65,7 +67,7 @@ buildPythonPackage rec {
   doCheck = false;
 
   passthru.tests = {
-    pytest = callPackage ./tests.nix { };
+    pytest = callPackage ./tests.nix {};
   };
 
   meta = with lib; {
@@ -74,6 +76,6 @@ buildPythonPackage rec {
     description = "The lightning-fast ASGI server";
     mainProgram = "uvicorn";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ wd15 ];
+    maintainers = with maintainers; [wd15];
   };
 }
