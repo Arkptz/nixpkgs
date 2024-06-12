@@ -8318,8 +8318,6 @@ with self; {
 
   names = callPackage ../development/python-modules/names {};
 
-  name-that-hash = callPackage ../development/python-modules/name-that-hash {};
-
   namex = callPackage ../development/python-modules/namex {};
 
   name-that-hash = callPackage ../development/python-modules/name-that-hash {};
@@ -8335,8 +8333,6 @@ with self; {
   navec = callPackage ../development/python-modules/navec {};
 
   natasha = callPackage ../development/python-modules/natasha {};
-
-  nomadnet = callPackage ../development/python-modules/nomadnet {};
 
   nomadnet = callPackage ../development/python-modules/nomadnet {};
 
