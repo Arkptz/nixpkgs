@@ -8,7 +8,7 @@
   ninja,
   python3,
   gobject-introspection,
-  wrapGAppsHook,
+  wrapGAppsHook3,
   wrapQtAppsHook,
   extra-cmake-modules,
   qtbase,
@@ -16,6 +16,7 @@
   qtsvg,
   qtimageformats,
   gtk3,
+  glib-networking,
   boost,
   fmt,
   libdbusmenu,
@@ -31,7 +32,6 @@
   range-v3,
   tl-expected,
   hunspell,
-  glibmm_2_68,
   webkitgtk_6_0,
   jemalloc,
   rnnoise,
@@ -45,7 +45,6 @@
   lld,
   libicns,
   nix-update-script,
-  libXtst,
 }:
 # Main reference:
 # - This package was originally based on the Arch package but all patches are now upstreamed:
@@ -60,22 +59,24 @@ let
       cxxStandard = "20";
     };
   };
-  mainProgram = "ayugram-desktop";
+  mainProgram =
+    if stdenv.isLinux
+    then "ayugram-desktop"
+    else "Ayugram";
 in
   stdenv.mkDerivation rec {
     pname = "ayugram-desktop";
-    version = "4.15";
+    version = "5.1.2";
 
     src = fetchFromGitHub {
       owner = "AyuGram";
       repo = "AyuGramDesktop";
       rev = "v${version}";
       fetchSubmodules = true;
-      hash = "sha256-7WBMF+plDuYu/Nn0rs7DLqKbxXg3apaM7FEpDvHJyhI=";
+      hash = "sha256-dlPt87SKP17v9QFiRZSSUtSLVGTGbeo05G/p05l2zVc=";
     };
 
     patches = [
-      ./add-cstdint-include.patch
       ./macos.patch
       # the generated .desktop files contains references to unwrapped tdesktop, breaking scheme handling
       # and the scheme handler is already registered in the packaged .desktop file, rendering this unnecessary
@@ -116,7 +117,7 @@ in
       ]
       ++ lib.optionals stdenv.isLinux [
         gobject-introspection
-        wrapGAppsHook
+        wrapGAppsHook3
         extra-cmake-modules
       ]
       ++ lib.optionals stdenv.isDarwin [
@@ -125,7 +126,6 @@ in
 
     buildInputs =
       [
-        libXtst
         qtbase
         qtsvg
         qtimageformats
@@ -147,13 +147,13 @@ in
       ++ lib.optionals stdenv.isLinux [
         qtwayland
         gtk3
+        glib-networking
         fmt
         libdbusmenu
         alsa-lib
         libpulseaudio
         pipewire
         hunspell
-        glibmm_2_68
         webkitgtk_6_0
         jemalloc
       ]
@@ -205,7 +205,7 @@ in
       "-DDESKTOP_APP_USE_PACKAGED_FONTS=OFF"
       "-DDESKTOP_APP_DISABLE_SCUDO=ON"
     ];
-    NIX_CXXFLAGS = "-std=c++11 -include cstdint";
+
     preBuild = ''
       # for cppgir to locate gir files
       export GI_GIR_PATH="$XDG_DATA_DIRS"
@@ -242,7 +242,7 @@ in
       '';
       license = licenses.gpl3Only;
       platforms = platforms.all;
-      homepage = "t.me/ayugram1338";
+      homepage = "https://t.me/ayugram1338";
       changelog = "https://github.com/AyuGram/AyuGramDesktop/releases/tag/v${version}";
       inherit mainProgram;
     };
