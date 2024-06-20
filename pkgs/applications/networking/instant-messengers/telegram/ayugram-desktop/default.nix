@@ -32,6 +32,7 @@
   range-v3,
   tl-expected,
   hunspell,
+  glibmm_2_68,
   webkitgtk_6_0,
   jemalloc,
   rnnoise,
@@ -45,6 +46,7 @@
   lld,
   libicns,
   nix-update-script,
+  libXtst,
 }:
 # Main reference:
 # - This package was originally based on the Arch package but all patches are now upstreamed:
@@ -62,7 +64,7 @@ let
   mainProgram =
     if stdenv.isLinux
     then "ayugram-desktop"
-    else "Ayugram";
+    else "ayugram";
 in
   stdenv.mkDerivation rec {
     pname = "ayugram-desktop";
@@ -143,6 +145,7 @@ in
         tg_owt
         microsoft-gsl
         rlottie
+        libXtst
       ]
       ++ lib.optionals stdenv.isLinux [
         qtwayland
@@ -154,6 +157,7 @@ in
         libpulseaudio
         pipewire
         hunspell
+        glibmm_2_68
         webkitgtk_6_0
         jemalloc
       ]
@@ -204,6 +208,11 @@ in
       # See: https://github.com/NixOS/nixpkgs/pull/130827#issuecomment-885212649
       "-DDESKTOP_APP_USE_PACKAGED_FONTS=OFF"
       "-DDESKTOP_APP_DISABLE_SCUDO=ON"
+    ];
+
+    CXXFLAGS = [
+      # GCC 13: error: 'int64_t' in namespace 'std' does not name a type
+      "-include cstdint"
     ];
 
     preBuild = ''
