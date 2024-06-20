@@ -220,9 +220,8 @@ in
     postFixup =
       lib.optionalString stdenv.isLinux ''
         ls $out/share/applications/
-        cd .. qq
-        sed -i 's/Exec=DESKTOPINTEGRATION=1 ayugram-desktop -- %u/Exec=ayugram-desktop -- %u/g' "$out/share/applications/com.ayugram.desktop.desktop"
-        sed -i 's/StartupWMClass=AyuGram/StartupWMClass=com.ayugram/g' "$out/share/applications/com.ayugram.desktop.desktop"
+        sed -i 's/Exec=DESKTOPINTEGRATION=1 ayugram-desktop -- %u/Exec=ayugram-desktop -- %u/g' "$out/share/applications/org.telegram.desktop.desktop"
+        sed -i 's/StartupWMClass=AyuGram/StartupWMClass=com.ayugram/g' "$out/share/applications/org.telegram.desktop.desktop"
         # This is necessary to run Telegram in a pure environment.
         # We also use gappsWrapperArgs from wrapGAppsHook.
         wrapProgram $out/bin/${mainProgram} \
