@@ -75,7 +75,7 @@ in
       repo = "AyuGramDesktop";
       rev = "v${version}";
       fetchSubmodules = true;
-      hash = "sha256-dlPt87SKP17v9QFiRZSSUtSLVGTGbeo05G/p05l2zVc=";
+      hash = "sha256-7WBMF+plDuYu/Nn0rs7DLqKbxXg3apaM7FEpDvHJyhI=";
     };
 
     patches = [
@@ -229,8 +229,9 @@ in
     postFixup =
       lib.optionalString stdenv.isLinux ''
         ls $out/share/applications/
-        sed -i 's/Exec=DESKTOPINTEGRATION=1 ayugram-desktop -- %u/Exec=ayugram-desktop -- %u/g' "$out/share/applications/org.telegram.desktop.desktop"
-        sed -i 's/StartupWMClass=AyuGram/StartupWMClass=com.ayugram/g' "$out/share/applications/org.telegram.desktop.desktop"
+        sed -i 's/Exec=DESKTOPINTEGRATION=1 ayugram-desktop -- %u/Exec=ayugram-desktop -- %u/g' "$out/share/applications/com.ayugram.desktop.desktop"
+        sed -i 's/StartupWMClass=AyuGram/StartupWMClass=com.ayugram/g' "$out/share/applications/com.ayugram.desktop.desktop"
+
         # This is necessary to run Telegram in a pure environment.
         # We also use gappsWrapperArgs from wrapGAppsHook.
         wrapProgram $out/bin/${mainProgram} \
